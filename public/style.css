@@ -1,0 +1,388 @@
+@import url('./fonts.css');
+
+html {
+  font-size: 16px;
+  font-family: Georgia;
+  padding: 1.5rem;
+  background-color: #F1F1F1;
+}
+
+h1 {
+  font-size: 2rem;
+  font-family: 'Gotham Book';
+  text-transform: uppercase;
+  color: red;
+  margin-bottom: 1rem;
+}
+
+/* Navbar */
+
+#brand {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#search img {
+  margin-right: 1rem;
+}
+
+#logo-container {
+  width: 30%;
+}
+
+#nav-logo {
+  width: 100%;
+  height: auto;
+}
+
+#gfx {
+  width: 60%;
+}
+
+#gfx-ca5 {
+  width: 100%;
+  height: auto;
+}
+
+#search {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 10%;
+}
+
+.navbar {
+  width: 100vw;
+  background-color: #040D3A;
+  /* 040D3A */
+}
+
+.nav-opts {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  text-align: center;
+  padding: 1.5rem 1rem;
+}
+
+.nav-opts a {
+  text-decoration: none;
+  list-style-type: none;
+  color: white;
+  font-family: 'Gotham';
+  font-weight: lighter;
+}
+
+/* Hero */
+
+.home {
+  background-image: url(./web-producto-24.png);
+  background-color: #cccccc; /* Used if the image is unavailable */
+  height: 500px; /* You must set a specified height */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100vw;
+}
+
+.product {
+  background-image: url(./web-producto-15.png);
+  background-color: #cccccc; /* Used if the image is unavailable */
+  height: 500px; /* You must set a specified height */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100vw;
+}
+
+.cotice-jumbo {
+  width: 20%;
+  height: auto;
+  position: relative;
+}
+
+.cotice-btn {
+  width: 100%;
+  height: auto;
+}
+
+
+/* Intro */
+.intro {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 80%;
+  margin: 4rem auto;
+  align-content: center;
+}
+
+.intro .content {
+  width: 40%;
+  padding-right: 3rem;
+}
+
+.intro .logo {
+  width: 80%;
+}
+
+.intro img {
+  width: 100%;
+}
+
+.intro .content p {
+  text-align: justify;
+  margin-top: 1rem;
+}
+
+.intro .content b {
+  font-weight: bold;
+}
+
+.intro .video {
+  width: 60%;
+}
+
+/* Misión */
+.mission {
+  width: 80%;
+  margin: 0 auto;
+}
+
+
+/* Valores Que Nos Hacen Únicos */
+.values-title {
+  width: 80%;
+  margin: 4rem auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.values-container {
+  width: 20%;
+  height: auto;
+  margin-right: 2rem;
+}
+
+.values-band {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.values-container img {
+  width: 100%;
+  height: auto;
+}
+
+
+.values-band img {
+  width: 100%;
+  height: auto;
+}
+
+/* Propuesta de Valor */
+
+.valor {
+  width: 80%;
+  margin: 4rem auto;
+}
+
+/* Discrete navbar */
+.discrete {
+  background-color: grey;
+}
+
+
+/* Contacto */
+.contact {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.contact p {
+  height: 1rem;
+}
+
+.social-media, .email, .tc, .cotice {
+  width: 25%;
+  margin: 2rem;
+}
+
+.social-media, .email {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+
+.social-media .smicon {
+  width: 16.67%;
+}
+
+.social-media .smicon img,
+.email .contact-email-icon img,
+.tc img,
+.cotice img,
+.product-img,
+.fale-alert,
+.product-name-wrapper img,
+.anadir-btn img,
+.mosaic-wrapper img,
+.table-wrapper img {
+  width: 100%;
+  height: auto;
+}
+
+.email {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.email .contact-email-icon {
+  width: 25%;
+}
+
+
+/* PRODUCT PAGE EXCLUSIVE */
+
+.product-info,
+.applications-n-presentations {
+  display: flex;
+  width: 80%;
+  margin: 4rem auto;
+  flex-direction: row;
+}
+
+.product-img-fale,
+.product-info-body {
+  width: 50%;
+  margin: 0 3rem;
+}
+
+.product-name-wrapper {
+  width: 40%;
+  margin-bottom: 2rem;
+}
+
+.product-info-body p {
+  margin-top: 2rem;
+}
+
+.inline-img-wrapper {
+  display: inline;
+  margin: 2px;
+}
+
+.inline-img {
+  height: 16px;
+  width: auto;
+}
+
+form .row-1,
+form .row-2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 2rem auto;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 25%;
+  margin: 0;
+}
+
+.form-group:last-child {
+  margin-left: 2rem;
+}
+
+form label {
+  font-family: 'Gotham Book';
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: grey;
+}
+
+form select,
+form input {
+  font-family: 'Gotham Book';
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.anadir-btn {
+  width: 50%;
+}
+
+.car-tec-title {
+  margin-bottom: 1rem;
+}
+
+.car-tec-list {
+  list-style-type: disc;
+}
+
+.car-tec-list li {
+  padding: 0.2rem;
+}
+
+.applications,
+.presentations {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 50%;
+  padding: 1rem;
+}
+
+.applications .mosaic-wrapper {
+  width: 50%;
+}
+
+.advantages-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 80%;
+  margin: 2rem auto;
+}
+
+.advantages {
+  display: flex;
+  flex-direction: row;
+}
+
+.adv-block {
+  width: 33.3%;
+  padding: 1rem;
+}
+
+.adv-block h3 {
+  background-color: grey;
+  color: #F1F1F1;
+  padding: 1rem 1rem;
+  text-align: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.adv-block p {
+  padding: 1rem 1rem;
+}
