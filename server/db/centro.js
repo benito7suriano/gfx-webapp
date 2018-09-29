@@ -4,7 +4,10 @@ const db = require('./database')
 const Centro = db.define('centro', {
   nombre: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: true
+    }
   },
   direccion: {
     type: Sequelize.TEXT,
