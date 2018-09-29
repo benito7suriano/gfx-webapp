@@ -5,7 +5,7 @@ module.exports = router
 // NOTE: Any routes that you put here are ALREADY mounted on `/api`
 // You can put all routes in this file HOWEVER,
 // this file should almost be like a table of contents for the routers you create!
-router.use('/centros', require('./cds'))
+router.use('/centros', require('./centros'))
 
 // If someone makes a req that starts with `/api`,
 // but you DON'T have a corresponding router, this piece of

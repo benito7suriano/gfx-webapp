@@ -15,11 +15,11 @@ const Centro = db.define('centro', {
     allowNull: false
   },
   telarea: {
-    type: Sequelize.NUMBER,
+    type: Sequelize.INTEGER,
     allownull: false
   },
   telnum: {
-    type: Sequelize.NUMBER,
+    type: Sequelize.INTEGER,
     allowNull: false
   },
   email: {
