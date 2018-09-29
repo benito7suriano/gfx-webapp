@@ -1,7 +1,7 @@
 {
   "name": "gfx-webapp",
   "version": "1.0.0",
-  "description": "Grupo Ferromax web app de cotización, productos, plazas, etc.",
+  "description": "Grupo Ferromax web app de cotización, e info de productos, plazas, etc.",
   "main": "index.js",
   "scripts": {
     "start": "node server/app.js",
@@ -49,6 +49,11 @@
     "GALVANISSA",
     "GHT",
     "ZincAlum",
-    "construcción"
+    "construcción",
+    "construir",
+    "techos",
+    "estructuras",
+    "edificios",
+    "casas"
   ]
 }
