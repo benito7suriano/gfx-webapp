@@ -11,7 +11,11 @@ const Centro = db.define('centro', {
   },
   direccion: {
     type: Sequelize.TEXT,
-    allownull: false
+    allowNull: false
+  },
+  cluster: {
+    type: Sequelize.STRING,
+    allowNull: false
   },
   pais: {
     type: Sequelize.STRING,
@@ -19,7 +23,7 @@ const Centro = db.define('centro', {
   },
   telarea: {
     type: Sequelize.INTEGER,
-    allownull: false
+    allowNull: false
   },
   telnum: {
     type: Sequelize.INTEGER,
@@ -27,6 +31,10 @@ const Centro = db.define('centro', {
   },
   email: {
     type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      isEmail: true
+    }
   },
   map: {
     type: Sequelize.STRING
