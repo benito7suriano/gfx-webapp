@@ -79,13 +79,15 @@ describe('The `Centro` model', () => {
 
   describe('Throws error if fields are left NULL', () => {
     it('requires `nombre`', () => {
-      centro.nombre = null
+      centro.nombre = ''
+
       return centro.validate()
         .then(() => {
-          throw new Error('validation should fail when content is null')
+          throw new Error('validation should fail when content is empty')
         },
           (result) => {
             expect(result).to.be.an.instanceOf(Error)
+            expect(result.message).to.contain('Validation error')
           })
     })
     it('requires `direccion`', () => {
@@ -152,5 +154,8 @@ describe('The `Centro` model', () => {
             expect(result).to.be.an.instanceOf(Error)
           })
     })
+  })
+  describe('Requires `nombre` in a strict way', () => {
+
   })
 })
