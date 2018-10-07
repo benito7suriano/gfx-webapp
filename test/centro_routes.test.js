@@ -324,7 +324,6 @@ describe('Centro routes:', () => {
       })
       .expect(200)
       .expect((res) => {
-        console.log('RES: ', res.body.centro)
         expect(res.body.message).to.equal('Updated successfully')
         expect(res.body.centro.nombre).to.equal('NNN')
       })
@@ -364,7 +363,54 @@ describe('Centro routes:', () => {
    * Test the delete route for the Centro model
    *
    * */
-  describe('DELETE /centros/:id', () => {
 
+  describe('DELETE /centros/:id', () => {
+    let centroExample
+
+    beforeEach(() => {
+      let creatingCentros = [{
+        nombre: 'GFX Center 1',
+        direccion: '1234 Blvd Road, Galvanized St.',
+        cluster: 'Midcenter',
+        pais: 'El Salvador',
+        telarea: 503,
+        telnum: 22120000,
+        email: 'gfx@grupoferromax.com'
+      },
+      {
+        nombre: 'GFX Center 2',
+        direccion: '1234 Blvd Road, Galvanized St.',
+        cluster: 'Midcenter',
+        pais: 'El Salvador',
+        telarea: 503,
+        telnum: 22120000,
+        email: 'gfx@grupoferromax.com'
+      },
+      {
+        nombre: 'GFX Center 3',
+        direccion: '1234 Blvd Road, Galvanized St.',
+        cluster: 'Midcenter',
+        pais: 'El Salvador',
+        telarea: 503,
+        telnum: 22120000,
+        email: 'gfx@grupoferromax.com'
+      }
+      ].map(data => Centro.create(data))
+
+      return Promise.all(creatingCentros)
+        .then(createdCentros => {
+          centroExample = createdCentros[0]
+        })
+    })
+
+    /**
+     * Delete one of the centros and check that the array is reduced to a size that conveys only the remaining entries
+     */
+
+     it('responds with a 204 after successfully DELETEing', () => {
+       return agent
+       .delete('/api/centros/' + centroExample.id)
+       .expect(204)
+     })
   })
 })
