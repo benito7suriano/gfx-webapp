@@ -170,10 +170,201 @@ describe('Centro routes:', () => {
         if(typeof res.body === 'string') {
           res.body = JSON.parse(res.body)
         }
-        console.log('This is res.body: ', res.body)
         expect(res.body[0].nombre).to.equal('GFX Center 1')
+      })
+    })
+    it('returns a 404 error if the ID is not correct', () => {
+      return agent
+      .get('/api/articles/123')
+      .expect(404)
+    })
+  })
+
+  /**
+   * Test the post routes for centros
+   */
+
+  describe('POST /centros', () => {
+    /**
+     * Testing the creation of a new centro
+     * Here we don't get back just the centro, we get back an object of this type, which we construct:
+     * {
+     *    nombre: NEW
+     *    direccion: 7777 Street, City City
+     *    cluster: Centerfold
+     *    pais: El Salvador
+     *    telarea: 503
+     *    telnum: 2212 7777
+     *    email: new@grupoferromax.com
+     * }
+     */
+
+     it('creates a new centro', () => {
+       return agent
+       .post('/api/centros')
+       .send({
+          nombre: 'NEW',
+          direccion: '7777 Street, City City',
+          cluster: 'Centerfold',
+          pais: 'El Salvador',
+          telarea: 503,
+          telnum: 22127777,
+          email: 'new@grupoferromax.com'
+       })
+       .expect(200)
+       .expect((res) => {
+         expect(res.body.nombre).to.equal('NEW')
+         expect(res.body.id).to.not.be.an('undefined')
+         expect(res.body.cluster).to.equal('Centerfold')
+       })
+     })
+
+    it('doesn\'t create an article without allowNull: false fields', () => {
+      return agent
+      .post('/api/centros')
+      .send({
+        nombre: 'NAC'
+      })
+      .expect(500)
+    })
+
+    // check if the centros were actually saved to the db
+    it('saves the centro to the db', () => {
+      return agent
+      .post('/api/centros')
+      .send({
+        nombre: 'NEW',
+        direccion: '7777 Street, City City',
+        cluster: 'Centerfold',
+        pais: 'El Salvador',
+        telarea: 503,
+        telnum: 22127777,
+        email: 'new@grupoferromax.com'
+      })
+      .expect(200)
+      .then(() => {
+        return Centro.findOne({
+          where: { nombre: 'NEW'}
+        })
+      }).then((found) => {
+        expect(found).to.exist // eslint-disable-line no-unused-expressions
+        expect(found.pais).to.equal('El Salvador')
+      })
+    })
+    // do not assume that aysnc ops (like db writes) will work; always check
+    it('sends back JSON of the actual created centro, not just the POSTed data', () => {
+
+      return agent
+      .post('/api/centros')
+      .send({
+        nombre: 'NEW',
+        direccion: '7777 Street, City City',
+        cluster: 'Centerfold',
+        pais: 'El Salvador',
+        telarea: 503,
+        telnum: 22127777,
+        email: 'new@grupoferromax.com',
+        extraneous: 'Bla bla bla'
+      })
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.extraneous).to.be.an('undefined')
+        expect(res.body.createdAt).to.exist // eslint-disable-line no-unused-expressions
       })
     })
   })
 
+  /**
+   * Series of specs to test updating of Centros using a PUT req to /centros/:id
+   *
+   */
+  describe('PUT /centros/:id', () => {
+    let centro
+
+    beforeEach(() => {
+      return Centro.create({
+        nombre: 'NEW',
+        direccion: '7777 Street, City City',
+        cluster: 'Centerfold',
+        pais: 'El Salvador',
+        telarea: 503,
+        telnum: 22127777,
+        email: 'new@grupoferromax.com'
+      }).then((created) => {
+        centro = created
+      })
+    })
+
+    /**
+     * Test the updating of a centro
+     * Here we don't get back just the artcile, we get back an object of this type, which we construct:
+     * {
+     *    nombre: 'NEW',
+          direccion: '7777 Street, City City',
+          cluster: 'Centerfold',
+          pais: 'El Salvador',
+          telarea: 503,
+          telnum: 22127777,
+          email: 'new@grupoferromax.com'
+        }
+     *
+     */
+
+    it('updates a centro', () => {
+      return agent
+      .put('/api/centros/' + centro.id)
+      .send({
+        nombre: 'NNN',
+        direccion: '7777 Street, City City',
+        cluster: 'Centerfold',
+        pais: 'El Salvador',
+        telarea: 503,
+        telnum: 22127777,
+        email: 'new@grupoferromax.com'
+      })
+      .expect(200)
+      .expect((res) => {
+        console.log('RES: ', res.body.centro)
+        expect(res.body.message).to.equal('Updated successfully')
+        expect(res.body.centro.nombre).to.equal('NNN')
+      })
+    })
+
+    it('saves updates to the db', () => {
+      return agent
+      .put('/api/centros/' + centro.id)
+      .send({
+        nombre: 'NNN',
+        direccion: '7777 Street, City City',
+        cluster: 'Centerfold',
+        pais: 'El Salvador',
+        telarea: 503,
+        telnum: 22127777,
+        email: 'new@grupoferromax.com'
+      })
+      .then(() => {
+        return Centro.findById(centro.id)
+      })
+      .then((found) => {
+        expect(found).to.exist // eslint-disable-line
+        expect(found.nombre).to.equal('NNN')
+      })
+    })
+
+    it('gets 500 for invalid updates', () => {
+      return agent
+      .put('/api/centros/' + centro.id)
+      .send({ nombre: null })
+      .expect(500)
+    })
+  })
+
+  /**
+   *
+   * Test the delete route for the Centro model
+   *
+   * */
+  describe('DELETE /centros/:id', () => {
+
+  })
 })
