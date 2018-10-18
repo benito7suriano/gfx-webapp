@@ -14,5 +14,6 @@ const Pais = require('./pais')
 
 module.exports = {
   db,
-  Centro
+  Centro,
+  Pais
 }
