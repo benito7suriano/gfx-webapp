@@ -7,13 +7,17 @@ const db = require('./database')
 // Exporting all models from here seems like a good idea!
 const Centro = require('./centro')
 const Pais = require('./pais')
+const Zona = require('./zona')
 
 // define joint tables
 
 // associations go here
+Pais.hasMany(Zona)
+Zona.hasMany(Centro)
 
 module.exports = {
   db,
   Centro,
-  Pais
+  Pais,
+  Zona
 }
