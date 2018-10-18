@@ -8,6 +8,7 @@ const db = require('./database')
 const Centro = require('./centro')
 const Pais = require('./pais')
 const Zona = require('./zona')
+const User = require('./user')
 
 // define joint tables
 
@@ -19,5 +20,6 @@ module.exports = {
   db,
   Centro,
   Pais,
-  Zona
+  Zona,
+  User
 }
