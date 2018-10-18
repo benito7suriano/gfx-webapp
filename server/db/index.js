@@ -12,6 +12,7 @@ const User = require('./user')
 const Producto = require('./producto')
 const Tipo = require('./tipo')
 const Calibre = require('./calibre')
+const Color = require('./color')
 
 // define joint tables
 
@@ -19,7 +20,9 @@ const Calibre = require('./calibre')
 Pais.hasMany(Zona)
 Zona.hasMany(Centro)
 Producto.hasMany(Tipo)
+Producto.hasMany(Color)
 Tipo.hasMany(Calibre)
+
 
 module.exports = {
   db,
@@ -29,5 +32,6 @@ module.exports = {
   User,
   Producto,
   Tipo,
-  Calibre
+  Calibre,
+  Color
 }
