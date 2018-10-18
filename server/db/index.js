@@ -6,6 +6,7 @@ const db = require('./database')
 
 // Exporting all models from here seems like a good idea!
 const Centro = require('./centro')
+const Pais = require('./pais')
 
 // define joint tables
 
