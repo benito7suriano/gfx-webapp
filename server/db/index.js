@@ -20,9 +20,11 @@ const Color = require('./color')
 Pais.hasMany(Zona)
 Zona.hasMany(Centro)
 Producto.hasMany(Tipo)
-Producto.hasMany(Color)
 Tipo.hasMany(Calibre)
+Producto.hasMany(Color)
 
+User.belongsToMany(Pais)
+Pais.belongsToMany(User)
 
 module.exports = {
   db,
