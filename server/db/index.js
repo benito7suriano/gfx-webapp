@@ -10,12 +10,16 @@ const Pais = require('./pais')
 const Zona = require('./zona')
 const User = require('./user')
 const Producto = require('./producto')
+const Tipo = require('./tipo')
+const Calibre = require('./calibre')
 
 // define joint tables
 
 // associations go here
 Pais.hasMany(Zona)
 Zona.hasMany(Centro)
+Producto.hasMany(Tipo)
+Tipo.hasMany(Calibre)
 
 module.exports = {
   db,
@@ -23,5 +27,7 @@ module.exports = {
   Pais,
   Zona,
   User,
-  Producto
+  Producto,
+  Tipo,
+  Calibre
 }
