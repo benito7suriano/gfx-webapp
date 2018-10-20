@@ -79,7 +79,7 @@ describe('The `Centro` model', () => {
 
   describe('Throws error if fields are left NULL', () => {
     it('requires `nombre`', () => {
-      centro.nombre = ''
+      centro.nombre = null
 
       return centro.validate()
         .then(() => {
@@ -87,7 +87,6 @@ describe('The `Centro` model', () => {
         },
           (result) => {
             expect(result).to.be.an.instanceOf(Error)
-            expect(result.message).to.contain('Validation error')
           })
     })
     it('requires `direccion`', () => {

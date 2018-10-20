@@ -77,4 +77,81 @@ describe('The `User` model',() => {
       })
     })
   })
+
+  describe('Throws error if fields are left NULL', () => {
+    it('requires `nombre`', () => {
+      user.nombre = null
+
+      return user.validate()
+        .then(() => {
+          throw new Error('validation should fail when content is empty')
+        },
+          (result) => {
+            expect(result).to.be.an.instanceOf(Error)
+          })
+    })
+
+    it('requires `apellido`', () => {
+      user.apellido = null
+
+      return user.validate()
+        .then(() => {
+          throw new Error('validation should fail when content is empty')
+        },
+          (result) => {
+            expect(result).to.be.an.instanceOf(Error)
+          })
+    })
+
+    it('requires `telarea`', () => {
+      user.telarea = null
+
+      return user.validate()
+        .then(() => {
+          throw new Error('validation should fail when content is empty')
+        },
+          (result) => {
+            expect(result).to.be.an.instanceOf(Error)
+          })
+    })
+
+    it('requires `telnum`', () => {
+      user.telnum = null
+
+      return user.validate()
+        .then(() => {
+          throw new Error('validation should fail when content is empty')
+        },
+          (result) => {
+            expect(result).to.be.an.instanceOf(Error)
+          })
+    })
+
+    it('requires `email`', () => {
+      user.email = null
+
+      return user.validate()
+        .then(() => {
+          throw new Error('validation should fail when content is empty')
+        },
+          (result) => {
+            expect(result).to.be.an.instanceOf(Error)
+          })
+    })
+
+    it('requires `subscripcion`', () => {
+      user.subscripcion = null
+
+      return user.validate()
+        .then(() => {
+          throw new Error('validation should fail when content is empty')
+        },
+          (result) => {
+            expect(result).to.be.an.instanceOf(Error)
+          })
+    })
+
+
+
+  })
 })
