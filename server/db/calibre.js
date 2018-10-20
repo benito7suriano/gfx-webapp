@@ -16,3 +16,5 @@ const Calibre = db.define('calibre', {
     type: Sequelize.STRING
   }
 })
+
+module.exports = Calibre

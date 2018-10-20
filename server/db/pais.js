@@ -8,10 +8,6 @@ const Pais = db.define('pais', {
     validate: {
       notEmpty: true
     }
-  },
-  region: {
-    type: Sequelize.STRING,
-    allowNull: false
   }
 })
 

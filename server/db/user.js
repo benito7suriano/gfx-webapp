@@ -35,7 +35,9 @@ const User = db.define('user', {
     type: Sequelize.STRING
   },
   subscripcion: {
-    type: Sequelize.BOOLEAN
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+    defaultValue: true
   }
 })
 

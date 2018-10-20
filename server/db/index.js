@@ -6,34 +6,33 @@ const db = require('./database')
 
 // Exporting all models from here seems like a good idea!
 const Centro = require('./centro')
-const Pais = require('./pais')
-const Zona = require('./zona')
 const User = require('./user')
-const Producto = require('./producto')
-const Tipo = require('./tipo')
-const Calibre = require('./calibre')
-const Color = require('./color')
+// const Pais = require('./pais')
+// const Zona = require('./zona')
+// const Producto = require('./producto')
+// const Tipo = require('./tipo')
+// const Calibre = require('./calibre')
+// const Color = require('./color')
 
 // define joint tables
 
 // associations go here
-Pais.hasMany(Zona)
-Zona.hasMany(Centro)
-Producto.hasMany(Tipo)
-Tipo.hasMany(Calibre)
-Producto.hasMany(Color)
-
-User.belongsToMany(Pais)
-Pais.belongsToMany(User)
+// Pais.hasMany(Zona)
+// Zona.hasMany(Centro)
+// Producto.hasMany(Tipo)
+// Tipo.hasMany(Calibre)
+// Producto.hasMany(Color)
+// User.belongsToMany(Pais)
+// Pais.belongsToMany(User)
 
 module.exports = {
   db,
   Centro,
-  Pais,
-  Zona,
-  User,
-  Producto,
-  Tipo,
-  Calibre,
-  Color
+  User
+  // Pais,
+  // Zona,
+  // Producto,
+  // Tipo,
+  // Calibre,
+  // Color
 }
