@@ -18,7 +18,11 @@ router.get('/:centroId', async (req, res, next) => {
   try {
     const centroId = req.params.centroId
     const centro = await Centro.findAll({where: { id: centroId } })
-    res.json(centro)
+    if(centro.length === 0) {
+      res.sendStatus(404)
+    } else {
+      res.json(centro)
+    }
   } catch (err) {
     next (err)
   }

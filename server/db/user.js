@@ -14,6 +14,7 @@ const User = db.define('user', {
     allowNull: false,
     validate: {
       notEmpty: true
+
     }
   },
   telarea: {

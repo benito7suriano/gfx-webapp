@@ -18,7 +18,11 @@ router.get('/:userId', async (req, res, next) => {
   try {
     const userId = req.params.userId
     const user = await User.findAll({where: { id: userId }})
-    res.json(user)
+    if(user.length === 0) {
+      res.sendStatus(404)
+    } else {
+      res.json(user)
+    }
   } catch(err) {
     next(err)
   }
