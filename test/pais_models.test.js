@@ -51,7 +51,7 @@ describe('The `Pais` model', () => {
       ])
     })
 
-    xit('includes NOMBRE as a required field', () => {
+    it('includes NOMBRE as a required field', () => {
       return pais.save()
       .then((savedPais) => {
         expect(savedPais.nombre).to.equal('Guatemala')
@@ -60,7 +60,7 @@ describe('The `Pais` model', () => {
   })
 
   describe('Throws error if field are left NULL', () => {
-    xit('requires `nombre`', () => {
+    it('requires `nombre`', () => {
       pais.nombre = ''
 
       return pais.validate()
@@ -69,7 +69,6 @@ describe('The `Pais` model', () => {
       },
         (result) => {
           expect(result).to.be.an.instanceOf(Error)
-          expect(result.message).to.contain('Validation Error')
         })
     })
   })

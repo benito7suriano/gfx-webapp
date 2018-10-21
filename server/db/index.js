@@ -7,7 +7,7 @@ const db = require('./database')
 // Exporting all models from here seems like a good idea!
 const Centro = require('./centro')
 const User = require('./user')
-// const Pais = require('./pais')
+const Pais = require('./pais')
 // const Zona = require('./zona')
 // const Producto = require('./producto')
 // const Tipo = require('./tipo')
@@ -28,8 +28,8 @@ const User = require('./user')
 module.exports = {
   db,
   Centro,
-  User
-  // Pais,
+  User,
+  Pais
   // Zona,
   // Producto,
   // Tipo,
