@@ -215,59 +215,190 @@ describe('User routes:', () => {
           expect(res.body.subscripcion).to.equal(true)
         })
     })
-  })
 
-  it('doesn\'t create an instance without allowNull: false fields', () => {
-    return agent
-      .post('/api/users')
-      .send({
-        nombre: 'NAC'
-      })
-      .expect(500)
-  })
-
-  // check if the users were actually saved to the db
-  it('saves the user to the db', () => {
-    return agent
-      .post('/api/users')
-      .send({
-        nombre: 'Benito',
-        apellido: 'Suriano',
-        telarea: 503,
-        telnum: 23980530,
-        email: 'benito@galvanissa.com',
-        empresa: 'Grupo Ferromax',
-        subscripcion: true
-      })
-      .expect(200)
-      .then(() => {
-        return User.findOne({
-          where: { nombre: 'Benito' }
+    it('doesn\'t create an instance without allowNull: false fields', () => {
+      return agent
+        .post('/api/users')
+        .send({
+          nombre: 'NAC'
         })
-      }).then((found) => {
-        expect(found).to.exist // eslint-disable-line no-unused-expressions
-        expect(found.empresa).to.equal('Grupo Ferromax')
-      })
+        .expect(500)
+    })
+
+    // check if the users were actually saved to the db
+    it('saves the user to the db', () => {
+      return agent
+        .post('/api/users')
+        .send({
+          nombre: 'Benito',
+          apellido: 'Suriano',
+          telarea: 503,
+          telnum: 23980530,
+          email: 'benito@galvanissa.com',
+          empresa: 'Grupo Ferromax',
+          subscripcion: true
+        })
+        .expect(200)
+        .then(() => {
+          return User.findOne({
+            where: { nombre: 'Benito' }
+          })
+        }).then((found) => {
+          expect(found).to.exist // eslint-disable-line no-unused-expressions
+          expect(found.empresa).to.equal('Grupo Ferromax')
+        })
+    })
+
+    // do not assume that aysnc ops (like db writes) will work; always check
+    it('sends back JSON of the actual created user, not just the POSTed data', () => {
+
+      return agent
+        .post('/api/users')
+        .send({
+          nombre: 'Benito',
+          apellido: 'Suriano',
+          telarea: 503,
+          telnum: 23980530,
+          email: 'benito@galvanissa.com',
+          empresa: 'Grupo Ferromax',
+          subscripcion: true
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.extraneous).to.be.an('undefined')
+          expect(res.body.createdAt).to.exist // eslint-disable-line no-unused-expressions
+        })
+    })
   })
 
-  // do not assume that aysnc ops (like db writes) will work; always check
-  it('sends back JSON of the actual created user, not just the POSTed data', () => {
+  // test the updating of user info using a PUT req to /users/:userId
+  describe('PUT /users/:id', () => {
+    let user
 
-    return agent
-      .post('/api/users')
-      .send({
-        nombre: 'Benito',
-        apellido: 'Suriano',
+    beforeEach(() => {
+      return User.create({
+          nombre: 'Benito',
+          apellido: 'Suriano',
+          telarea: 503,
+          telnum: 23980530,
+          email: 'benito@galvanissa.com',
+          empresa: 'Grupo Ferromax',
+          subscripcion: true
+      }).then((created) => {
+        user = created
+      })
+    })
+
+    /**
+     * Test the updating of a user
+     * Here we don't get back just the artcile, we get back an object of this type, which we construct:
+     * {
+     *    nombre: 'Benito',
+          apellido: 'Suriano',
+          telarea: 503,
+          telnum: 23980530,
+          email: 'benito@galvanissa.com',
+          empresa: 'Grupo Ferromax',
+          subscripcion: true
+        }
+     *
+     */
+
+    it('updates a user', () => {
+      return agent
+        .put('/api/users/' + user.id)
+        .send({
+          nombre: 'Benito',
+          apellido: 'Suriano',
+          telarea: 503,
+          telnum: 23980530,
+          email: 'benito@galvanissa.com',
+          empresa: 'Grupo Ferromax',
+          subscripcion: true
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.message).to.equal('Updated successfully')
+          expect(res.body.user.nombre).to.equal('Benito')
+        })
+    })
+
+    it('saves updates to the db', () => {
+      return agent
+        .put('/api/users/' + user.id)
+        .send({
+          nombre: 'Benito',
+          apellido: 'Suriano',
+          telarea: 503,
+          telnum: 23980530,
+          email: 'benito@galvanissa.com',
+          empresa: 'Grupo Ferromax',
+          subscripcion: true
+        })
+        .then(() => {
+          return User.findById(user.id)
+        })
+        .then((found) => {
+          expect(found).to.exist // eslint-disable-line
+          expect(found.nombre).to.equal('Benito')
+        })
+    })
+
+    it('gets 500 for invalid updates', () => {
+      return agent
+        .put('/api/users/' + user.id)
+        .send({ nombre: null })
+        .expect(500)
+    })
+  })
+
+  // test the delete route for the users model
+  describe('DELETE /users/:id', () => {
+    let userExample
+
+    beforeEach(() => {
+      let creatingUsers = [{
+        nombre: 'Juana',
+        apellido: 'Lamengana',
         telarea: 503,
-        telnum: 23980530,
-        email: 'benito@galvanissa.com',
-        empresa: 'Grupo Ferromax',
-        subscripcion: true
-      })
-      .expect(200)
-      .expect((res) => {
-        expect(res.body.extraneous).to.be.an('undefined')
-        expect(res.body.createdAt).to.exist // eslint-disable-line no-unused-expressions
-      })
+        telnum: 78561268,
+        email: 'juana@gmail.com',
+        empresa: 'La Peor es Nada',
+        subscripcion: false
+      }, {
+          nombre: 'Héctor',
+          apellido: 'Elfader',
+          telarea: 503,
+          telnum: 2277777,
+          email: 'hector@gmail.com',
+          empresa: 'La Industria Inc',
+          subscripcion: false
+        }, {
+          nombre: 'Ermenegildo',
+          apellido: 'Ozuna',
+          telarea: 503,
+          telnum: 22301010,
+          email: 'ozuuuna@gmail.com',
+          empresa: 'Negros y Claros',
+          subscripcion: false
+        }
+      ].map(data => User.create(data))
+
+      return Promise.all(creatingUsers)
+        .then(createdUsers => {
+          userExample = createdUsers[0]
+        })
+    })
+
+    /**
+     * Delete one of the users and check that the array is reduced to a size that conveys only the remaining entries
+     */
+
+    it('responds with a 204 after successfully DELETEing', () => {
+      return agent
+        .delete('/api/users/' + userExample.id)
+        .expect(204)
+    })
   })
+
 })

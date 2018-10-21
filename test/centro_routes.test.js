@@ -219,7 +219,7 @@ describe('Centro routes:', () => {
        })
      })
 
-    it('doesn\'t create an article without allowNull: false fields', () => {
+    it('doesn\'t create an instance without allowNull: false fields', () => {
       return agent
       .post('/api/centros')
       .send({

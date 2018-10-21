@@ -47,8 +47,8 @@ router.put('/:userId', async (req, res, next) => {
     if(!user) return res.sendStatus(404)
 
     const updated = await user.update(req.body)
-
-    res.status(200).json({ centro: updated, message: 'Updated successfully '}).end()
+    console.log(`Response of updating a user: ${res.body}`)
+    res.status(200).json({ user: updated, message: 'Updated successfully'}).end()
   } catch (err) {
     next(err)
   }
