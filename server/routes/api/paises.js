@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { Pais } = require('../../db/')
+const { Pais } = require('../../db')
 
 module.exports = router
 
