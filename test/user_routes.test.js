@@ -119,6 +119,7 @@ describe('User routes:', () => {
      })
   })
 
+  // test the search for users by id
   describe('GET /users/:userId', () => {
     let userExample
 
@@ -176,5 +177,97 @@ describe('User routes:', () => {
       .get('/api/users/123')
       .expect(404)
     })
+  })
+
+  // test the post routes for users
+  describe('POST /users', () => {
+    /**
+     * Testing the creation of a new user
+     * Here, we don't just get back the user, we get back an object of this type, which we construct:
+     * {
+     *    nombre: 'Benito',
+     *    apellido: 'Suriano',
+     *    telarea: 503,
+     *    telnum: 23980530,
+     *    email: benito@galvanissa.com,
+     *    empresa: 'Grupo Ferromax',
+     *    subscripcion: true
+     *
+     * }
+     */
+
+    it('creates a new user', () => {
+      return agent
+        .post('/api/users')
+        .send({
+          nombre: 'Benito',
+          apellido: 'Suriano',
+          telarea: 503,
+          telnum: 23980530,
+          email: 'benito@galvanissa.com',
+          empresa: 'Grupo Ferromax',
+          subscripcion: true
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.nombre).to.equal('Benito')
+          expect(res.body.id).to.not.be.an('undefined')
+          expect(res.body.subscripcion).to.equal(true)
+        })
+    })
+  })
+
+  it('doesn\'t create an instance without allowNull: false fields', () => {
+    return agent
+      .post('/api/users')
+      .send({
+        nombre: 'NAC'
+      })
+      .expect(500)
+  })
+
+  // check if the users were actually saved to the db
+  it('saves the user to the db', () => {
+    return agent
+      .post('/api/users')
+      .send({
+        nombre: 'Benito',
+        apellido: 'Suriano',
+        telarea: 503,
+        telnum: 23980530,
+        email: 'benito@galvanissa.com',
+        empresa: 'Grupo Ferromax',
+        subscripcion: true
+      })
+      .expect(200)
+      .then(() => {
+        return User.findOne({
+          where: { nombre: 'Benito' }
+        })
+      }).then((found) => {
+        expect(found).to.exist // eslint-disable-line no-unused-expressions
+        expect(found.empresa).to.equal('Grupo Ferromax')
+      })
+  })
+
+  // do not assume that aysnc ops (like db writes) will work; always check
+  it('sends back JSON of the actual created user, not just the POSTed data', () => {
+
+    return agent
+      .post('/api/users')
+      .send({
+        nombre: 'Benito',
+        apellido: 'Suriano',
+        telarea: 503,
+        telnum: 23980530,
+        email: 'benito@galvanissa.com',
+        empresa: 'Grupo Ferromax',
+        subscripcion: true
+      })
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.extraneous).to.be.an('undefined')
+        expect(res.body.createdAt).to.exist // eslint-disable-line no-unused-expressions
+      })
   })
 })

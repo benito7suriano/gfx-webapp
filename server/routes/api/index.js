@@ -7,6 +7,7 @@ module.exports = router
 // this file should almost be like a table of contents for the routers you create!
 router.use('/centros', require('./centros'))
 router.use('/users', require('./users'))
+router.use('/paises', require('./paises'))
 
 // If someone makes a req that starts with `/api`,
 // but you DON'T have a corresponding router, this piece of
