@@ -151,7 +151,31 @@ describe('The `User` model',() => {
           })
     })
 
+    it('Requires `nombre` in a strict way', () => {
+      user.nombre = ''
 
+      return user.validate()
+        .then(() => {
+          throw new Error('validation should fail when content is empty')
+        },
+          (result) => {
+            expect(result).to.be.an.instanceOf(Error)
+            expect(result.message).to.contain('Validation error')
+          })
+    })
+
+    it('Requires `apellido` in a strict way', () => {
+      user.apellido = ''
+
+      return user.validate()
+        .then(() => {
+          throw new Error('validation should fail when content is empty')
+        },
+          (result) => {
+            expect(result).to.be.an.instanceOf(Error)
+            expect(result.message).to.contain('Validation error')
+          })
+    })
 
   })
 })

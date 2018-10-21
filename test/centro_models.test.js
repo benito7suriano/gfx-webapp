@@ -89,6 +89,7 @@ describe('The `Centro` model', () => {
             expect(result).to.be.an.instanceOf(Error)
           })
     })
+
     it('requires `direccion`', () => {
       centro.direccion = null
       return centro.validate()
@@ -99,6 +100,7 @@ describe('The `Centro` model', () => {
             expect(result).to.be.an.instanceOf(Error)
           })
     })
+
     it('requires `cluster`', () => {
       centro.cluster = null
       return centro.validate()
@@ -109,6 +111,7 @@ describe('The `Centro` model', () => {
             expect(result).to.be.an.instanceOf(Error)
           })
     })
+
     it('requires `pais`', () => {
       centro.pais = null
 
@@ -120,6 +123,7 @@ describe('The `Centro` model', () => {
             expect(result).to.be.an.instanceOf(Error)
           })
     })
+
     it('requires `telarea`', () => {
       centro.telarea = null
 
@@ -131,6 +135,7 @@ describe('The `Centro` model', () => {
             expect(result).to.be.an.instanceOf(Error)
           })
     })
+
     it('requires `telnum`', () => {
       centro.telnum = null
 
@@ -142,6 +147,7 @@ describe('The `Centro` model', () => {
             expect(result).to.be.an.instanceOf(Error)
           })
     })
+
     it('requires `email`', () => {
       centro.email = null
 
@@ -153,8 +159,19 @@ describe('The `Centro` model', () => {
             expect(result).to.be.an.instanceOf(Error)
           })
     })
-  })
-  describe('Requires `nombre` in a strict way', () => {
 
+    it('Requires `nombre` in a strict way', () => {
+      centro.nombre = ''
+
+      return centro.validate()
+      .then(() => {
+        throw new Error('validation should fail when content is empty')
+      },
+      (result) => {
+        expect(result).to.be.an.instanceOf(Error)
+        expect(result.message).to.contain('Validation error')
+      })
+    })
   })
+
 })
