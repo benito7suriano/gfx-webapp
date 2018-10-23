@@ -264,4 +264,35 @@ describe('País routes: ', () => {
         .expect(500)
     })
   })
+
+  // DELETE países
+  describe('DELETE /paises/:id', () => {
+    let paisExample
+
+    beforeEach(() => {
+      let creatingPaises = [{
+        nombre: 'El Salvador'
+      }, {
+        nombre: 'Guatemala'
+      }, {
+          nombre: 'Nicaragua'
+      }
+      ].map(data => Pais.create(data))
+
+      return Promise.all(creatingPaises)
+        .then(createdPaises => {
+          paisExample = createdPaises[0]
+        })
+    })
+
+    /**
+     * Delete one of the paises and check that the array is reduced to a size that conveys only the remaining entries
+     */
+
+    it('responds with a 204 after successfully DELETEing', () => {
+      return agent
+        .delete('/api/paises/' + paisExample.id)
+        .expect(204)
+    })
+  })
 })
