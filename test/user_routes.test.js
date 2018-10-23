@@ -120,62 +120,64 @@ describe('User routes:', () => {
   })
 
   // test the search for users by id
-  describe('GET /users/:userId', () => {
+  describe('GET /api/users/:userId', () => {
     let userExample
 
     beforeEach(() => {
       let creatingUsers = [{
-        nombre: 'Juana',
-        apellido: 'Lamengana',
+        nombre: 'Carlos',
+        apellido: 'Vives',
         telarea: 503,
-        telnum: 78561268,
-        email: 'juana@gmail.com',
-        empresa: 'La Peor es Nada',
+        telnum: 22173939,
+        email: 'carlos@gmail.com',
+        empresa: 'La Bicicleta',
         subscripcion: false
-      }, {
+      },
+      {
         nombre: 'Héctor',
         apellido: 'Elfader',
-        telarea: 503,
-        telnum: 2277777,
+        telarea: 502,
+        telnum: 22227777,
         email: 'hector@gmail.com',
-        empresa: 'La Industria Inc',
+        empresa: 'La Industria Inc.',
         subscripcion: false
-      }, {
-          nombre: 'Ermenegildo',
-          apellido: 'Ozuna',
-          telarea: 503,
-          telnum: 22301010,
-          email: 'ozuuuna@gmail.com',
-          empresa: 'Negros y Claros',
-          subscripcion: false
-      }].map(data => User.create(data))
+      },
+      {
+        nombre: 'Juan Esteban',
+        apellido: 'Ozuna',
+        telarea: 505,
+        telnum: 22171234,
+        email: 'ozuuuuna@gmail.com',
+        empresa: 'Negrito ojos claros',
+        subscripcion: true
+      }
+      ].map(data => User.create(data))
 
       return Promise.all(creatingUsers)
-      .then(createdUsers => {
-        userExample = createdUsers[0]
-      })
+        .then(createdUsers => {
+          userExample = createdUsers[0]
+        })
     })
 
     /**
-       * This is a proper GET /api/users/userId req where we search by the ID of the user created above
-       */
-
+     * This is a proper GET /api/users/userId req where we search by the ID of the user created above
+     */
     it('returns the JSON of the user based on the id', () => {
       return agent
-      .get('/api/users/', + userExample.id)
-      .expect(200)
-      .expect(res => {
-        if(typeof res.body === 'string') {
-          res.body = JSON.parse(res.body)
-        }
-        expect(res.body[0].nombre).to.equal('Juana')
-      })
+        .get('/api/users/' + userExample.id)
+        .expect(200)
+        .expect((res) => {
+          if (typeof res.body === 'string') {
+            res.body = JSON.parse(res.body)
+          }
+          expect(res.body[0].nombre).to.equal('Carlos')
+        })
     })
 
     it('returns a 404 error if the ID is not valid', () => {
       return agent
-      .get('/api/users/123')
-      .expect(404)
+        .get('/api/users/347890')
+        .expect(404)
     })
   })
 

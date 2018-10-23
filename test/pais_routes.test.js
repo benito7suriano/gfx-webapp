@@ -208,5 +208,60 @@ describe('País routes: ', () => {
     })
   })
 
+  // PUT países by Id
+  describe('PUT /paises/:id', () => {
+    let pais
 
+    beforeEach(() => {
+      return Pais.create({
+        nombre: 'El Salvador'
+      }).then((created) => {
+        pais = created
+      })
+    })
+
+    /**
+     * Test the updating of a pais
+     * Here we don't get back just the article, we get back an object of this type, which we construct:
+     * {
+     *    nombre: 'El Salvador'
+        }
+     *
+     */
+
+    it('updates a pais', () => {
+      return agent
+        .put('/api/paises/' + pais.id)
+        .send({
+          nombre: 'China'
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.message).to.equal('Updated successfully')
+          expect(res.body.pais.nombre).to.equal('China')
+        })
+    })
+
+    it('saves updates to the db', () => {
+      return agent
+        .put('/api/paises/' + pais.id)
+        .send({
+          nombre: 'China'
+        })
+        .then(() => {
+          return Pais.findById(pais.id)
+        })
+        .then((found) => {
+          expect(found).to.exist // eslint-disable-line
+          expect(found.nombre).to.equal('China')
+        })
+    })
+
+    it('gets 500 for invalid updates', () => {
+      return agent
+        .put('/api/paises/' + pais.id)
+        .send({ nombre: null })
+        .expect(500)
+    })
+  })
 })

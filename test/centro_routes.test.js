@@ -173,6 +173,7 @@ describe('Centro routes:', () => {
         expect(res.body[0].nombre).to.equal('GFX Center 1')
       })
     })
+
     it('returns a 404 error if the ID is not valid', () => {
       return agent
       .get('/api/centros/347890')
