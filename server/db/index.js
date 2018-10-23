@@ -8,7 +8,7 @@ const db = require('./database')
 const Centro = require('./centro')
 const User = require('./user')
 const Pais = require('./pais')
-// const Zona = require('./zona')
+const Zona = require('./zona')
 // const Producto = require('./producto')
 // const Tipo = require('./tipo')
 // const Calibre = require('./calibre')
@@ -29,8 +29,8 @@ module.exports = {
   db,
   Centro,
   User,
-  Pais
-  // Zona,
+  Pais,
+  Zona
   // Producto,
   // Tipo,
   // Calibre,
