@@ -142,4 +142,71 @@ describe('País routes: ', () => {
         .expect(404)
     })
   })
+
+  // POST new países
+  describe('POST /paises', () => {
+    /**
+     * Testing the creation of a new pais
+     * Here we don't get back just the pais, we get back an object of this type, which we construct:
+     * {
+     *    nombre: 'Nicaragua'
+     * }
+     */
+
+    it('creates a new pais', () => {
+      return agent
+        .post('/api/paises')
+        .send({
+          nombre: 'Nicaragua'
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.nombre).to.equal('Nicaragua')
+          expect(res.body.id).to.not.be.an('undefined')
+        })
+    })
+
+    it('doesn\'t create an instance without allowNull: false fields', () => {
+      return agent
+        .post('/api/paises')
+        .send({
+          nombre: null
+        })
+        .expect(500)
+    })
+
+    // check if the paises were actually saved to the db
+    it('saves the pais to the db', () => {
+      return agent
+        .post('/api/paises')
+        .send({
+          nombre: 'Nicaragua'
+        })
+        .expect(200)
+        .then(() => {
+          return Pais.findOne({
+            where: { nombre: 'Nicaragua' }
+          })
+        }).then((found) => {
+          expect(found).to.exist // eslint-disable-line no-unused-expressions
+          expect(found.nombre).to.equal('Nicaragua')
+        })
+    })
+    // do not assume that aysnc ops (like db writes) will work; always check
+    it('sends back JSON of the actual created pais, not just the POSTed data', () => {
+
+      return agent
+        .post('/api/paises')
+        .send({
+          nombre: 'Nicaragua'
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.extraneous).to.be.an('undefined')
+          expect(res.body.createdAt).to.exist // eslint-disable-line no-unused-expressions
+        })
+    })
+  })
+
+
 })
