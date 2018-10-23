@@ -24,6 +24,7 @@ describe('País routes: ', () => {
     ])
   })
 
+  // GET all países
   describe('GET /paises', () => {
     /* We'll run a GET req to /paises
 
@@ -69,7 +70,7 @@ describe('País routes: ', () => {
     })
 
     /*
-    * Save a second article in the db using our modle, then retrieve it using the GET /api/paises route
+    * Save a second article in the db using our model, then retrieve it using the GET /api/paises route
     */
     it('returns another pais if there is one in the db', () => {
       let pais1 = Pais.build({
@@ -96,6 +97,49 @@ describe('País routes: ', () => {
                 .to.equal('Honduras')
             })
         })
+    })
+  })
+
+  // GET países by Id
+  describe('GET /api/paises/:paisId', () => {
+    let paisExample
+
+    beforeEach(() => {
+      let creatingPaises = [{
+        nombre: 'El Salvador'
+      },
+      {
+        nombre: 'Guatemala'
+      },
+      {
+        nombre: 'Honduras'
+      }
+      ].map(data => Pais.create(data))
+
+      return Promise.all(creatingPaises)
+        .then(createdPaises => {
+          paisExample = createdPaises[0]
+        })
+    })
+
+    /**
+     * This is a proper GET /api/paises/paisId req where we search by the ID of the pais created above
+     */
+    it('returns the JSON of the pais based on the id', () => {
+      return agent
+        .get('/api/paises/' + paisExample.id)
+        .expect(200)
+        .expect((res) => {
+          if (typeof res.body === 'string') {
+            res.body = JSON.parse(res.body)
+          }
+          expect(res.body[0].nombre).to.equal('El Salvador')
+        })
+    })
+    it('returns a 404 error if the ID is not valid', () => {
+      return agent
+        .get('/api/paises/347890')
+        .expect(404)
     })
   })
 })
