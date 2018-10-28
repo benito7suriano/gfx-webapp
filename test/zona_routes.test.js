@@ -143,5 +143,71 @@ describe('Zona routes: ', () => {
     })
   })
 
+  // POST new zonas
+  describe('POST /zonas', () => {
+    /**
+     * Testing the creation of a new zona
+     * Here we don't get back just the zona, we get back an object of this type, which we construct:
+     * {
+     *    nombre: 'Usulután'
+     * }
+     */
+
+    it('creates a new zona', () => {
+      return agent
+        .post('/api/zonas')
+        .send({
+          nombre: 'Usulután'
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.nombre).to.equal('Usulután')
+          expect(res.body.id).to.not.be.an('undefined')
+        })
+    })
+
+    it('doesn\'t create an instance without allowNull: false fields', () => {
+      return agent
+        .post('/api/zonas')
+        .send({
+          nombre: null
+        })
+        .expect(500)
+    })
+
+    // check if the zonas were actually saved to the db
+    it('saves the zona to the db', () => {
+      return agent
+        .post('/api/zonas')
+        .send({
+          nombre: 'Usulután'
+        })
+        .expect(200)
+        .then(() => {
+          return Zona.findOne({
+            where: { nombre: 'Usulután' }
+          })
+        }).then((found) => {
+          expect(found).to.exist // eslint-disable-line no-unused-expressions
+          expect(found.nombre).to.equal('Usulután')
+        })
+    })
+    // do not assume that aysnc ops (like db writes) will work; always check
+    it('sends back JSON of the actual created zona, not just the POSTed data', () => {
+
+      return agent
+        .post('/api/zonas')
+        .send({
+          nombre: 'Nicaragua'
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.extraneous).to.be.an('undefined')
+          expect(res.body.createdAt).to.exist // eslint-disable-line no-unused-expressions
+        })
+    })
+  })
+
+
 })
 
