@@ -3,7 +3,7 @@ const { Zona } = require('../../db')
 
 module.exports = router
 
-// GET api/zona
+// GET /api/zonas
 router.get('/', async (req, res, next) => {
   try {
     const zona = await Zona.findAll()

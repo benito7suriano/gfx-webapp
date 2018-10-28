@@ -8,6 +8,7 @@ module.exports = router
 router.use('/centros', require('./centros'))
 router.use('/users', require('./users'))
 router.use('/paises', require('./paises'))
+router.use('/zonas', require('./zonas'))
 
 // If someone makes a req that starts with `/api`,
 // but you DON'T have a corresponding router, this piece of

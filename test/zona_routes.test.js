@@ -99,5 +99,49 @@ describe('Zona routes: ', () => {
         })
     })
   })
+
+  // GET zonas by Id
+  describe('GET /api/zonas/:zonaId', () => {
+    let zonaExample
+
+    beforeEach(() => {
+      let creatingZonas = [{
+        nombre: 'San Salvador'
+      },
+      {
+        nombre: 'La Libertad'
+      },
+      {
+        nombre: 'Santa Ana'
+      }
+      ].map(data => Zona.create(data))
+
+      return Promise.all(creatingZonas)
+        .then(createdZonas => {
+          zonaExample = createdZonas[0]
+        })
+    })
+
+    /**
+     * This is a proper GET /api/zonas/zonaId req where we search by the ID of the zona created above
+     */
+    it('returns the JSON of the zona based on the id', () => {
+      return agent
+        .get('/api/zonas/' + zonaExample.id)
+        .expect(200)
+        .expect((res) => {
+          if (typeof res.body === 'string') {
+            res.body = JSON.parse(res.body)
+          }
+          expect(res.body[0].nombre).to.equal('San Salvador')
+        })
+    })
+    it('returns a 404 error if the ID is not valid', () => {
+      return agent
+        .get('/api/zonas/347890')
+        .expect(404)
+    })
+  })
+
 })
 
