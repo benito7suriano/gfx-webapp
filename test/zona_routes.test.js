@@ -265,5 +265,36 @@ describe('Zona routes: ', () => {
     })
   })
 
+  // DELETE zonas
+  describe('DELETE /zonas/:id', () => {
+    let zonaExample
+
+    beforeEach(() => {
+      let creatingZonas = [{
+        nombre: 'San Salvador'
+      }, {
+        nombre: 'Metapán'
+      }, {
+        nombre: 'Zacatecoluca'
+      }
+      ].map(data => Zona.create(data))
+
+      return Promise.all(creatingZonas)
+        .then(createdZonas => {
+          zonaExample = createdZonas[0]
+        })
+    })
+
+    /**
+     * Delete one of the zonas and check that the array is reduced to a size that conveys only the remaining entries
+     */
+
+    it('responds with a 204 after successfully DELETEing', () => {
+      return agent
+        .delete('/api/zonas/' + zonaExample.id)
+        .expect(204)
+    })
+  })
 })
+
 

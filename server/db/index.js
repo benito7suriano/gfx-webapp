@@ -9,7 +9,7 @@ const Centro = require('./centro')
 const User = require('./user')
 const Pais = require('./pais')
 const Zona = require('./zona')
-// const Producto = require('./producto')
+const Producto = require('./producto')
 // const Tipo = require('./tipo')
 // const Calibre = require('./calibre')
 // const Color = require('./color')
@@ -17,7 +17,7 @@ const Zona = require('./zona')
 // define joint tables
 
 // associations go here
-// Pais.hasMany(Zona)
+Pais.hasMany(Zona)
 // Zona.hasMany(Centro)
 // Producto.hasMany(Tipo)
 // Tipo.hasMany(Calibre)
@@ -30,8 +30,8 @@ module.exports = {
   Centro,
   User,
   Pais,
-  Zona
-  // Producto,
+  Zona,
+  Producto
   // Tipo,
   // Calibre,
   // Color
