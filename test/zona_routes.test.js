@@ -208,6 +208,62 @@ describe('Zona routes: ', () => {
     })
   })
 
+  // PUT zonas by Id
+  describe('PUT /zonas/:id', () => {
+    let zona
+
+    beforeEach(() => {
+      return Zona.create({
+        nombre: 'San Salvador'
+      }).then((created) => {
+        zona = created
+      })
+    })
+
+    /**
+     * Test the updating of a zona
+     * Here we don't get back just the article, we get back an object of this type, which we construct:
+     * {
+     *    nombre: 'San Salvador'
+        }
+     *
+     */
+
+    it('updates a zona', () => {
+      return agent
+        .put('/api/zonas/' + zona.id)
+        .send({
+          nombre: 'San Salvador'
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.message).to.equal('Updated successfully')
+          expect(res.body.zona.nombre).to.equal('San Salvador')
+        })
+    })
+
+    it('saves updates to the db', () => {
+      return agent
+        .put('/api/zonas/' + zona.id)
+        .send({
+          nombre: 'San Salvador'
+        })
+        .then(() => {
+          return Zona.findById(zona.id)
+        })
+        .then((found) => {
+          expect(found).to.exist // eslint-disable-line
+          expect(found.nombre).to.equal('San Salvador')
+        })
+    })
+
+    it('gets 500 for invalid updates', () => {
+      return agent
+        .put('/api/zonas/' + zona.id)
+        .send({ nombre: null })
+        .expect(500)
+    })
+  })
 
 })
 
