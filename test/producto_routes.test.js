@@ -102,4 +102,50 @@ describe('Producto routes: ', () => {
         })
     })
   })
+
+  // GET productos by Id
+  describe('GET /api/productos/:productoId', () => {
+    let productoExample
+
+    beforeEach(() => {
+      let creatingProductos = [{
+        nombre: 'GHT',
+        descripcion: 'lorem ipsum dolorem'
+      },
+      {
+        nombre: 'ZincAlum',
+        descripcion: 'lorem ipsum dolorem'
+      },
+      {
+        nombre: 'HMX',
+        descripcion: 'lorem ipsum dolorem'
+      }
+      ].map(data => Producto.create(data))
+
+      return Promise.all(creatingProductos)
+        .then(createdProductos => {
+          productoExample = createdProductos[0]
+        })
+    })
+
+    /**
+     * This is a proper GET /api/productos/productoId req where we search by the ID of the producto created above
+     */
+    it('returns the JSON of the producto based on the id', () => {
+      return agent
+        .get('/api/productos/' + productoExample.id)
+        .expect(200)
+        .expect((res) => {
+          if (typeof res.body === 'string') {
+            res.body = JSON.parse(res.body)
+          }
+          expect(res.body[0].nombre).to.equal('GHT')
+        })
+    })
+    it('returns a 404 error if the ID is not valid', () => {
+      return agent
+        .get('/api/productos/347890')
+        .expect(404)
+    })
+  })
 })
