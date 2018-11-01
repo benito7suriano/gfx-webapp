@@ -148,4 +148,72 @@ describe('Producto routes: ', () => {
         .expect(404)
     })
   })
+
+  // POST new productos
+  describe('POST /productos', () => {
+    /**
+     * Testing the creation of a new producto
+     * Here we don't get back just the producto, we get back an object of this type, which we construct:
+     * {
+     *    nombre: 'GHT'
+     * }
+     */
+
+    it('creates a new producto', () => {
+      return agent
+        .post('/api/productos')
+        .send({
+          nombre: 'GHT',
+          descripcion: 'lorem ipsum dolorem'
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.nombre).to.equal('GHT')
+          expect(res.body.id).to.not.be.an('undefined')
+        })
+    })
+
+    it('doesn\'t create an instance without allowNull: false fields', () => {
+      return agent
+        .post('/api/productos')
+        .send({
+          nombre: null
+        })
+        .expect(500)
+    })
+
+    // check if the productos were actually saved to the db
+    it('saves the producto to the db', () => {
+      return agent
+        .post('/api/productos')
+        .send({
+          nombre: 'GHT',
+          descripcion: 'lorem ipsum dolorem'
+        })
+        .expect(200)
+        .then(() => {
+          return Producto.findOne({
+            where: { nombre: 'GHT' }
+          })
+        }).then((found) => {
+          expect(found).to.exist // eslint-disable-line no-unused-expressions
+          expect(found.nombre).to.equal('GHT')
+        })
+    })
+    // do not assume that aysnc ops (like db writes) will work; always check
+    it('sends back JSON of the actual created producto, not just the POSTed data', () => {
+
+      return agent
+        .post('/api/productos')
+        .send({
+          nombre: 'ZincAlum',
+          descripcion: 'lorem'
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.extraneous).to.be.an('undefined')
+          expect(res.body.createdAt).to.exist // eslint-disable-line no-unused-expressions
+        })
+    })
+  })
 })
