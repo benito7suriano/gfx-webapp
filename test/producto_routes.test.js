@@ -155,7 +155,8 @@ describe('Producto routes: ', () => {
      * Testing the creation of a new producto
      * Here we don't get back just the producto, we get back an object of this type, which we construct:
      * {
-     *    nombre: 'GHT'
+     *    nombre: 'GHT',
+     *    descripcion: 'lorem ipsum'
      * }
      */
 
