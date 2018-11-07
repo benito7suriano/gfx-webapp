@@ -10,7 +10,7 @@ const User = require('./user')
 const Pais = require('./pais')
 const Zona = require('./zona')
 const Producto = require('./producto')
-// const Tipo = require('./tipo')
+const Tipo = require('./tipo')
 // const Calibre = require('./calibre')
 // const Color = require('./color')
 
@@ -18,12 +18,12 @@ const Producto = require('./producto')
 
 // associations go here
 Pais.hasMany(Zona)
-// Zona.hasMany(Centro)
+Zona.hasMany(Centro)
 // Producto.hasMany(Tipo)
 // Tipo.hasMany(Calibre)
 // Producto.hasMany(Color)
-// User.belongsToMany(Pais)
-// Pais.belongsToMany(User)
+User.belongsToMany(Pais, {through: 'userPais'})
+Pais.belongsToMany(User, {through: 'userPais'})
 
 module.exports = {
   db,
@@ -31,8 +31,8 @@ module.exports = {
   User,
   Pais,
   Zona,
-  Producto
-  // Tipo,
+  Producto,
+  Tipo
   // Calibre,
   // Color
 }
