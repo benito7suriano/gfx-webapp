@@ -278,4 +278,38 @@ describe('Producto routes: ', () => {
         .expect(500)
     })
   })
+
+  // DELETE productos
+  describe('DELETE /productos/:id', () => {
+    let productoExample
+
+    beforeEach(() => {
+      let creatingProductos = [{
+        nombre: 'GHT',
+        descripcion: 'lorem ipsum'
+      }, {
+        nombre: 'ZincAlum',
+        descripcion: 'lorem ipsum'
+      }, {
+        nombre: 'Hierromax',
+        descripcion: 'lorem ipsum'
+      }
+      ].map(data => Producto.create(data))
+
+      return Promise.all(creatingProductos)
+        .then(createdProductos => {
+          productoExample = createdProductos[0]
+        })
+    })
+
+    /**
+     * Delete one of the productos and check that the array is reduced to a size that conveys only the remaining entries
+     */
+
+    it('responds with a 204 after successfully DELETEing', () => {
+      return agent
+        .delete('/api/productos/' + productoExample.id)
+        .expect(204)
+    })
+  })
 })
