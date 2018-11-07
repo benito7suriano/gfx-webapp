@@ -217,4 +217,65 @@ describe('Producto routes: ', () => {
         })
     })
   })
+
+  // PUT productos
+  describe('PUT /productos/:id', () => {
+    let producto
+
+    beforeEach(() => {
+      return Producto.create({
+        nombre: 'GHT',
+        descripcion: 'lorem ipsum'
+      }).then((created) => {
+        producto = created
+      })
+    })
+
+    /**
+     * Test the updating of a producto
+     * Here we don't get back just the article, we get back an object of this type, which we construct:
+     * {
+     *    nombre: 'GHT',
+     *    descripcion: 'lorem ipsum'
+        }
+     *
+     */
+
+    it('updates a producto', () => {
+      return agent
+        .put('/api/productos/' + producto.id)
+        .send({
+          nombre: 'GHT',
+          descripcion: 'lorem ipsum'
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.message).to.equal('Updated successfully')
+          expect(res.body.producto.nombre).to.equal('GHT')
+        })
+    })
+
+    it('saves updates to the db', () => {
+      return agent
+        .put('/api/productos/' + producto.id)
+        .send({
+          nombre: 'GHT',
+          descripcion: 'lorem ipsum'
+        })
+        .then(() => {
+          return Producto.findById(producto.id)
+        })
+        .then((found) => {
+          expect(found).to.exist // eslint-disable-line
+          expect(found.nombre).to.equal('GHT')
+        })
+    })
+
+    it('gets 500 for invalid updates', () => {
+      return agent
+        .put('/api/productos/' + producto.id)
+        .send({ nombre: null })
+        .expect(500)
+    })
+  })
 })
