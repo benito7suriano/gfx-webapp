@@ -143,5 +143,125 @@ describe('Tipo routes: ', () => {
     })
   })
 
+  // POST new tipos
+  describe('POST /tipos', () => {
+    /**
+     * Testing the creation of a new tipo
+     * Here we don't get back just the tipo, we get back an object of this type, which we construct:
+     * {
+     *    nombre: '4"x2"'
+     * }
+     */
 
+    it('creates a new tipo', () => {
+      return agent
+        .post('/api/tipos')
+        .send({
+          nombre: '4"x2"'
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.nombre).to.equal('4"x2"')
+          expect(res.body.id).to.not.be.an('undefined')
+        })
+    })
+
+    it('doesn\'t create an instance without allowNull: false fields', () => {
+      return agent
+        .post('/api/tipos')
+        .send({
+          nombre: null
+        })
+        .expect(500)
+    })
+
+    // check if the tipos were actually saved to the db
+    it('saves the tipo to the db', () => {
+      return agent
+        .post('/api/tipos')
+        .send({
+          nombre: '4"x2"'
+        })
+        .expect(200)
+        .then(() => {
+          return Tipo.findOne({
+            where: { nombre: '4"x2"' }
+          })
+        }).then((found) => {
+          expect(found).to.exist // eslint-disable-line no-unused-expressions
+          expect(found.nombre).to.equal('4"x2"')
+        })
+    })
+    // do not assume that aysnc ops (like db writes) will work; always check
+    it('sends back JSON of the actual created tipo, not just the POSTed data', () => {
+
+      return agent
+        .post('/api/tipos')
+        .send({
+          nombre: '4"x2"'
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.extraneous).to.be.an('undefined')
+          expect(res.body.createdAt).to.exist // eslint-disable-line no-unused-expressions
+        })
+    })
+  })
+
+  // PUT tipos
+  describe('PUT /tipos/:id', () => {
+    let tipo
+
+    beforeEach(() => {
+      return Tipo.create({
+        nombre: '4"x2"'
+      }).then((created) => {
+        tipo = created
+      })
+    })
+
+    /**
+     * Test the updating of a tipo
+     * Here we don't get back just the article, we get back an object of this type, which we construct:
+     * {
+     *    nombre: '4"x2"'
+        }
+     *
+     */
+
+    it('updates a tipo', () => {
+      return agent
+        .put('/api/tipos/' + tipo.id)
+        .send({
+          nombre: '4"x2"'
+        })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.message).to.equal('Updated successfully')
+          expect(res.body.tipo.nombre).to.equal('4"x2"')
+        })
+    })
+
+    it('saves updates to the db', () => {
+      return agent
+        .put('/api/tipos/' + tipo.id)
+        .send({
+          nombre: '4"x2"'
+        })
+        .then(() => {
+          return Tipo.findById(tipo.id)
+        })
+        .then((found) => {
+          expect(found).to.exist // eslint-disable-line
+          expect(found.nombre).to.equal('4"x2"')
+        })
+    })
+
+    it('gets 500 for invalid updates', () => {
+      return agent
+        .put('/api/tipos/' + tipo.id)
+        .send({ nombre: null })
+        .expect(500)
+    })
+  })
 })
