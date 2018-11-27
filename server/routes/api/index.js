@@ -11,6 +11,7 @@ router.use('/paises', require('./paises'))
 router.use('/zonas', require('./zonas'))
 router.use('/productos', require('./productos'))
 router.use('/tipos', require('./tipos'))
+// router.use('/calibres', require('./calibres'))
 
 // If someone makes a req that starts with `/api`,
 // but you DON'T have a corresponding router, this piece of
