@@ -264,4 +264,35 @@ describe('Tipo routes: ', () => {
         .expect(500)
     })
   })
+
+  // DELETE tipos
+  describe('DELETE /tipos/:id', () => {
+    let tipoExample
+
+    beforeEach(() => {
+      let creatingTipos = [{
+        nombre: '4"x2"'
+      }, {
+        nombre: '6"x2"'
+      }, {
+        nombre: '8"x2"'
+      }
+      ].map(data => Tipo.create(data))
+
+      return Promise.all(creatingTipos)
+        .then(createdtipos => {
+          tipoExample = createdtipos[0]
+        })
+    })
+
+    /**
+     * Delete one of the tipos and check that the array is reduced to a size that conveys only the remaining entries
+     */
+
+    it('responds with a 204 after successfully DELETEing', () => {
+      return agent
+        .delete('/api/tipos/' + tipoExample.id)
+        .expect(204)
+    })
+  })
 })
